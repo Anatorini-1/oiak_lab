@@ -9,7 +9,7 @@ STD_OUT = 1
 
 
 .data
-    msg: .ascii "Witaj w kolonii!\n"
+    msg: .ascii "Witamy w koloni\n"
     msg_len = . - msg
 
 .text

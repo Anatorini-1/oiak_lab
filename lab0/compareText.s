@@ -11,6 +11,8 @@ SYS_READ = 3
 STD_IN = 0
 
 
+
+
 .data
     buffer:  .ascii "    "
     buffer_len = . - buffer
@@ -35,13 +37,13 @@ _start:
     MOV $buffer, %ecx#Write the address of the buffer to ecx
     MOV $4, %esi     #The strings are 4 bytes long, so write 4 to esi, as the loop counter
 
-loop: #Check strings character by character
-    MOVb (%ebx), %al #Load first byte from ebx to al
-    MOV (%ecx), %dl  #Load first byte from ecx to dl
+loop: #Check strings character by character (%al is 8-bit wide, matching one ASCII character, so if we compare using the %al, it has to be done 1 character at a time)
+    MOVb (%ebx), %al #Load first character pointed to by ebx to al
+    MOV (%ecx), %dl  #Load first character pointed to by ecx to dl
     CMP %al, %dl     #Compare al to dl, set EFLAGS
     JNE diffrent     #If al != dl => JUMP to "different"
-    INC %ebx         #Increment ebx, moving to the next byte of sample text
-    INC %ecx         #Increment ecx, moving to the next byte of the buffer
+    INC %ebx         #Increment ebx, moving to the next character of sample text
+    INC %ecx         #Increment ecx, moving to the next character of the buffer
     DEC %esi         #Decrement esi, the loop counter
     JNZ loop         #Loop while esi > 0
 
