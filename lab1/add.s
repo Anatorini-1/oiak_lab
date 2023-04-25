@@ -10,13 +10,13 @@ STD_OUT = 1
 
 .data
 	liczba1: 
-        .long 0x10304008, 0x701100FF, 0x45100020, 0x08570030
+        .long 0xF0000010, 0x00000100, 0x00001000, 0xF0000000
     liczba2:
-    	.long 0xF040500C, 0x00220026, 0x321000CB, 0x04520031
+    	.long 0x10000010, 0x00000100, 0x00001000, 0x20000000
 
     
     
-
+.text
 _start:
 
     mov $liczba1, %ecx
@@ -29,14 +29,21 @@ _start:
         mov (%ecx,%esi,4), %eax 
         mov (%edx,%esi,4), %ebx
         adc %eax,%ebx
-        push %ebx
+        pushl %ebx
         dec %esi
         jnz loop
+    
+    jc overflow
+    
+    noOverflow:
+        pushl $0
+        jmp exit
 
-    pushf
-
-
-    mov $SYS_EXIT, %eax
-    mov $SYS_SUCCESS, %ebx
-    int $SYS_CALL
+    overflow:
+        pushl $1
+    
+    exit:
+        mov $SYS_EXIT, %eax
+        mov $SYS_SUCCESS, %ebx
+        int $SYS_CALL
     
