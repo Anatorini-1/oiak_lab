@@ -5,8 +5,7 @@
     liczba1: .float 6
     liczba2: .float 2
     liczba3: .float 8.75
-    zero: .float 0
-    buffer: .int 255
+
     double_even: .int    0b0000001001111111
     double_nInf: .int    0b0000011001111111
     double_pInf: .int    0b0000101001111111
@@ -42,13 +41,20 @@ _start:
     //FLDCW (extDouble_pInf)
     //FLDCW (extDouble_Trun)
 
-
-.loadOperands:
+.math:
+    //Set FPU to single-precision, round up
+    FLDCW (float_pInf)
+    //Divide 2 by 6
     FLDs (liczba1)
     FLDs (liczba2)
-
-.math:
     FDIVP
+    //Set to round down
+    FLDCW (float_nInf)
+    //Again, divide 2 by 6
+    FLDs (liczba1)
+    FLDs (liczba2)
+    FDIVP
+
 
 
 
