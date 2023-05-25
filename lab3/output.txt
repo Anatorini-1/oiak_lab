@@ -1,0 +1,7 @@
+Typ obliczen: SIMD / SISD 
+Liczba liczb: 2048
+Sredni czas [x]: 
++ 12650 / 20000
+- 9320 / 17870
+* 9230 / 18100
+/ 31860 / 22430
